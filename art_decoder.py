@@ -130,10 +130,10 @@ class ART_Decoder:
 		self.bitstream_path = bitstream_path + str(filename)+'/bitstream/'
 		self.output_path = bitstream_path
 		#load models
-		self.generator, self.region_predictor,self.avd_network, self.resEncoder, self.resDecoder,\
-		self.respriorEncoder, self.respriorDecoder, self.bitEstimator_z, self.config_options =\
-		load_checkpoints(config_path=self.config_path, checkpoint_path=self.checkpoint_path, cpu=self.cpu)
-		# self.generator, self.region_predictor,self.avd_network, self.config_options = load_checkpoints(config_path=self.config_path, checkpoint_path=self.checkpoint_path, cpu=self.cpu)
+		# self.generator, self.region_predictor,self.avd_network, self.resEncoder, self.resDecoder,\
+		# self.respriorEncoder, self.respriorDecoder, self.bitEstimator_z, self.config_options =\
+		# load_checkpoints(config_path=self.config_path, checkpoint_path=self.checkpoint_path, cpu=self.cpu)
+		self.generator, self.region_predictor,self.avd_network, self.config_options = load_checkpoints(config_path=self.config_path, checkpoint_path=self.checkpoint_path, cpu=self.cpu)
 		#load moov_box
 		self._load_metadata()
 		#load key points
@@ -184,15 +184,15 @@ class ART_Decoder:
 				
 			decoded = self.generator(sources[-1], source_region_params=kp_sources[-1], driving_region_params=new_region_params)
 			# add
-			if idx < len(kp_list['res']):
-				compressed_feature_renorm = torch.tensor(kp_list['res'][idx])
+			# if idx < len(kp_list['res']):
+			# 	compressed_feature_renorm = torch.tensor(kp_list['res'][idx])
 
-				recon_res = self.resDecoder(compressed_feature_renorm)
-				recon_image = decoded['prediction'] + recon_res
+			# 	recon_res = self.resDecoder(compressed_feature_renorm)
+			# 	recon_image = decoded['prediction'] + recon_res
 
-				clipped_recon_image = recon_image.clamp(0., 1.)
-				generated_frame = np.transpose(clipped_recon_image.data.cpu().numpy(),[0, 2, 3, 1])[0]
-			# generated_frame = np.transpose(decoded['prediction'].data.cpu().numpy(),[0, 2, 3, 1])[0]
+			# 	clipped_recon_image = recon_image.clamp(0., 1.)
+			# 	generated_frame = np.transpose(clipped_recon_image.data.cpu().numpy(),[0, 2, 3, 1])[0]
+			generated_frame = np.transpose(decoded['prediction'].data.cpu().numpy(),[0, 2, 3, 1])[0]
 
 			if idx in src_seq_list:
 				sources,kp_sources = self._smoothing_frame()

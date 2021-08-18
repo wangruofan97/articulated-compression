@@ -43,7 +43,7 @@ class BPGEncoder:
 			cmd_1 = ['../libbpg/bpgdec',self.output,'-o',output+'_d.jpg','-b', self.bit_depth]
 			# subprocess.call(cmd_1)
 			# frame = img_as_float(imageio.imread(output+'_d.jpg'))
-			frame = img_as_float(imageio.imread(os.getcwd() + '/temp/vvc_45_f2.jpg'))
+			frame = img_as_float(imageio.imread(os.getcwd() + '/temp/vvc_45_c.jpg'))
 			#os.remove(temp_dir)
 			return frame, self.bytes
 		else:
@@ -69,7 +69,7 @@ class BPGDecoder:
 			cmd = ['../libbpg/bpgdec',self.input,'-o',self.output,'-b', self.bit_depth]
 		# subprocess.call(cmd)
 		# frame = img_as_float(imageio.imread(self.output))
-		frame = img_as_float(imageio.imread(os.getcwd() + '/temp/vvc_45_f2.jpg'))
+		frame = img_as_float(imageio.imread(os.getcwd() + '/temp/vvc_45_c.jpg'))
 		# if output_file ==None:
 		# 	os.remove(self.output)
 		return frame
